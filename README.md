@@ -462,9 +462,8 @@ There is **NO dedicated "orders database"**.
 
 
 
-> "The demo intentionally keeps most services stateless to simplify deployment and focus on platform concerns like CI/CD, observability, scaling, and networking."
-
-> 
+"The demo intentionally keeps most services stateless to simplify deployment and focus on platform concerns like CI/CD, observability, scaling, and networking."
+ 
 
 
 
@@ -478,3 +477,62 @@ There is **NO dedicated "orders database"**.
 
 ![Gitops_Project](images/Gitops_Project.gif)
 ![Gitops_Project](images/Gitops_Project.png)
+
+
+---
+
+# Building and Pushing the docker images to GHCR (GitHub Container Registry)
+
+<details>
+
+<summary>Click to get the steps</summary>
+### Step-1: Create the token
+Create a PAT classic token with the below permissions.
+
+Give permissions:
+
+```
+Packages → Read&Write
+```
+
+If private repo add the below as well:
+
+```
+Contents →Read
+```
+
+### Step-2: Login to GHCR to push the docker images
+
+```bash
+echo <TOKEN> | docker login ghcr.io -u USERNAME --password-stdin
+```
+
+### Step-3: Build the docker image by using the dockerfile in the particular folder
+
+```
+docker build -t ghcr.io/vinaypo/microservices/adservice:v0.10.4 adservice/
+```
+
+### step-4: Push the docker image to the ghcr repository
+
+```
+docker push ghcr.io/vinaypo/microservices/adservice:v0.10.4
+```
+
+## Once we have the images in the github packages, connect them to the repository.
+
+Click on the profile, go to the packages --> package settings --> add the repository & give the role:"admin or write or read".
+
+- read: Can download the package and read package metadata
+- write: Can download the package and do both read and write package metadata
+- admin: Can upload, download, manage, read, write package metadata and delete, restore packages.
+
+Manage Actions access to which you want to give the package access
+![image.png](images/pck2.png)
+
+Select the repository and give the right Role.
+![image.png](images/pck1.png)
+![image.png](images/pck3.png)
+
+---
+
