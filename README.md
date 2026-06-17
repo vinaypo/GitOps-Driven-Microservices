@@ -486,6 +486,7 @@ There is **NO dedicated "orders database"**.
 <details>
 
 <summary>Click to get the steps</summary>
+
 ### Step-1: Create the token
 Create a PAT classic token with the below permissions.
 
