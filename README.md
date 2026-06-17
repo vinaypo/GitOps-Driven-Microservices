@@ -29,7 +29,7 @@ But from a **technical perspective**, modern boutique apps are **not built as a 
 They are built using **Microservices Architecture**.
 
 
-[!TIP]
+ [!TIP]
 # What is Microservices?
 
 **Microservices** is an architectural style where an application is broken into **small, independent services**, and each service:
