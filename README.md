@@ -195,27 +195,27 @@ They are built using **Microservices Architecture**.
 
 | --- | --- | --- |
 
-| [frontend](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/frontend) | Go | Exposes an HTTP server to serve the website. Does not require si[...] |
+| [frontend](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/frontend) | Go | Exposes an HTTP server to serve the website. Handles user sessions and displays product catalog. |
 
-| [cartservice](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/cartservice) | C# | Stores the items in the user's shopping cart in Redis and [...] |
+| [cartservice](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/cartservice) | C# | Stores the items in the user's shopping cart in Redis. Manages add/remove/view cart operations. |
 
-| [productcatalogservice](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/productcatalogservice) | Go | Provides the list of products from a J[...] |
+| [productcatalogservice](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/productcatalogservice) | Go | Provides the list of products from a JSON file. Returns product details, pricing, and inventory. |
 
-| [currencyservice](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/currencyservice) | Node.js | Converts one money amount to another currency[...] |
+| [currencyservice](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/currencyservice) | Node.js | Converts one money amount to another currency. Provides real-time exchange rate conversions. |
 
-| [paymentservice](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/paymentservice) | Node.js | Charges the given credit card info (mock) with [...] |
+| [paymentservice](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/paymentservice) | Node.js | Charges the given credit card info (mock implementation). Simulates payment processing without real transactions. |
 
-| [shippingservice](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/shippingservice) | Go | Gives shipping cost estimates based on the shoppin[...] |
+| [shippingservice](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/shippingservice) | Go | Gives shipping cost estimates based on shopping cart contents and destination. Calculates delivery logistics. |
 
-| [emailservice](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/emailservice) | Python | Sends users an order confirmation email (mock). |
+| [emailservice](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/emailservice) | Python | Sends users an order confirmation email (mock implementation). Logs email delivery attempts. |
 
-| [checkoutservice](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/checkoutservice) | Go | Retrieves user cart, prepares order and orchestrat[...] |
+| [checkoutservice](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/checkoutservice) | Go | Retrieves user cart, prepares order and orchestrates payment, shipping and notification services. |
 
-| [recommendationservice](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/recommendationservice) | Python | Recommends other products based on[...] |
+| [recommendationservice](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/recommendationservice) | Python | Recommends other products based on user browsing and shopping history. Provides personalized suggestions. |
 
-| [adservice](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/adservice) | Java | Provides text ads based on given context words. |
+| [adservice](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/adservice) | Java | Provides text ads based on given context words. Returns relevant advertisements for product pages. |
 
-| [loadgenerator](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/loadgenerator) | Python/Locust | Continuously sends requests imitating reali[...] |
+| [loadgenerator](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/loadgenerator) | Python/Locust | Continuously sends requests imitating realistic user behavior. Generates synthetic traffic for testing. |
 
 
 
@@ -505,31 +505,31 @@ There is **NO dedicated "orders database"**.
 
 
 
-| Service | Persistent Storage | Type |
+| **Service** | **Persistent Storage** | **Type** | **Language** |
 
-| --- | --- | --- |
+| --- | --- | --- | --- |
 
-| cartservice | ✅ Yes | Redis |
+| [cartservice](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/cartservice) | ✅ Yes | Redis | C# |
 
-| checkoutservice | ❌ No | Stateless |
+| [checkoutservice](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/checkoutservice) | ❌ No | Stateless | Go |
 
-| productcatalogservice | ❌ No | In-memory JSON |
+| [productcatalogservice](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/productcatalogservice) | ❌ No | In-memory JSON | Go |
 
-| recommendationservice | ❌ No | Stateless |
+| [recommendationservice](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/recommendationservice) | ❌ No | Stateless | Python |
 
-| paymentservice | ❌ No | Fake |
+| [paymentservice](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/paymentservice) | ❌ No | Fake | Node.js |
 
-| shippingservice | ❌ No | Fake |
+| [shippingservice](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/shippingservice) | ❌ No | Fake | Go |
 
-| emailservice | ❌ No | Fake |
+| [emailservice](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/emailservice) | ❌ No | Fake | Python |
 
-| adservice | ❌ No | In-memory |
+| [adservice](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/adservice) | ❌ No | In-memory | Java |
 
-| frontend | ❌ No | Stateless |
+| [frontend](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/frontend) | ❌ No | Stateless | Go |
 
-| currencyservice | ❌ No | In-memory |
+| [currencyservice](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/currencyservice) | ❌ No | In-memory | Node.js |
 
-| loadgenerator | ❌ No | Stateless |
+| [loadgenerator](https://github.com/vinaypo/GitOps-Driven-Microservices/tree/main/src/loadgenerator) | ❌ No | Stateless | Python/Locust |
 
 
 
