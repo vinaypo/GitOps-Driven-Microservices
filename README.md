@@ -1,8 +1,8 @@
-\# Project Introduction
+# Project Introduction
 
 
 
-\# Intro to Online Boutique App
+# Intro to Online Boutique App
 
 
 
@@ -10,37 +10,37 @@ This is a type of e-commerce platform, but unlike Amazon-type stores, it focuses
 
 
 
-\- \*\*Niche or curated products\*\*
+- **Niche or curated products**
 
-\- \*\*Unique / limited collections\*\*
+- **Unique / limited collections**
 
-\- \*\*Strong brand identity \& style\*\*
-
-
-
-Think of it as a \*\*digital version of a small, stylish fashion store\*\*.
+- **Strong brand identity & style**
 
 
 
-But from a \*\*technical perspective\*\*, modern boutique apps are \*\*not built as a single application\*\*.
+Think of it as a **digital version of a small, stylish fashion store**.
 
 
 
-They are built using \*\*Microservices Architecture\*\*.
+But from a **technical perspective**, modern boutique apps are **not built as a single application**.
 
 
 
-> \[!TIP]
+They are built using **Microservices Architecture**.
+
+
+
+> [!TIP]
 
 ># What is Microservices?
 
 >
 
->\*\*Microservices\*\* is an architectural style where an application is broken into \*\*small, independent services\*\*, and each service:
+>**Microservices** is an architectural style where an application is broken into **small, independent services**, and each service:
 
 >
 
->- Handles a \*\*specific business function\*\*
+>- Handles a **specific business function**
 
 >- Runs independently
 
@@ -48,7 +48,7 @@ They are built using \*\*Microservices Architecture\*\*.
 
 >
 
->👉 Instead of one big application (monolith), you have \*\*multiple small services working together\*\*.
+>👉 Instead of one big application (monolith), you have **multiple small services working together**.
 
 >
 
@@ -100,7 +100,7 @@ They are built using \*\*Microservices Architecture\*\*.
 
 >
 
->- Authentication \& profiles
+>- Authentication & profiles
 
 >
 
@@ -108,7 +108,7 @@ They are built using \*\*Microservices Architecture\*\*.
 
 >
 
->- Delivery tracking \& logistics
+>- Delivery tracking & logistics
 
 >
 
@@ -174,49 +174,48 @@ They are built using \*\*Microservices Architecture\*\*.
 
 >
 
->👉 That’s why modern apps (like boutique apps) >use microservices.
+>👉 That's why modern apps (like boutique apps) use microservices.
 
 
 
 
-
-\# \*\*Architecture\*\*
-
-
-
-\*\*Online Boutique\*\* is composed of 11 microservices written in different languages that talk to each other over gRPC.
+# **Architecture**
 
 
 
-!\[image.png](/images/Architecture01.png)
+**Online Boutique** is composed of 11 microservices written in different languages that talk to each other over gRPC.
 
 
 
-| \*\*Service\*\* | \*\*Language\*\* | \*\*Description\*\* |
+![Architecture01](images/Architecture01.png)
+
+
+
+| **Service** | **Language** | **Description** |
 
 | --- | --- | --- |
 
-| \[frontend](https://github.com/laxmikantagiri/Production-Grade\_GitOps-Driven\_Microservices-Demo/blob/main/src/frontend) | Go | Exposes an HTTP server to serve the website. Does not require signup/login and generates session IDs for all users automatically. |
+| [frontend](https://github.com/laxmikantagiri/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/frontend) | Go | Exposes an HTTP server to serve the website. Does not require si[...] |
 
-| \[cartservice](https://github.com/laxmikantagiri/Production-Grade\_GitOps-Driven\_Microservices-Demo/blob/main/src/cartservice) | C# | Stores the items in the user's shopping cart in Redis and retrieves it. |
+| [cartservice](https://github.com/laxmikantagiri/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/cartservice) | C# | Stores the items in the user's shopping cart in Redis and [...] |
 
-| \[productcatalogservice](https://github.com/laxmikantagiri/Production-Grade\_GitOps-Driven\_Microservices-Demo/blob/main/src/productcatalogservice) | Go | Provides the list of products from a JSON file and ability to search products and get individual products. |
+| [productcatalogservice](https://github.com/laxmikantagiri/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/productcatalogservice) | Go | Provides the list of products from a J[...] |
 
-| \[currencyservice](https://github.com/laxmikantagiri/Production-Grade\_GitOps-Driven\_Microservices-Demo/blob/main/src/currencyservice) | Node.js | Converts one money amount to another currency. Uses real values fetched from European Central Bank. It's the highest QPS service. |
+| [currencyservice](https://github.com/laxmikantagiri/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/currencyservice) | Node.js | Converts one money amount to another currency[...] |
 
-| \[paymentservice](https://github.com/laxmikantagiri/Production-Grade\_GitOps-Driven\_Microservices-Demo/blob/main/src/paymentservice) | Node.js | Charges the given credit card info (mock) with the given amount and returns a transaction ID. |
+| [paymentservice](https://github.com/laxmikantagiri/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/paymentservice) | Node.js | Charges the given credit card info (mock) with [...] |
 
-| \[shippingservice](https://github.com/laxmikantagiri/Production-Grade\_GitOps-Driven\_Microservices-Demo/blob/main/src/shippingservice) | Go | Gives shipping cost estimates based on the shopping cart. Ships items to the given address (mock) |
+| [shippingservice](https://github.com/laxmikantagiri/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/shippingservice) | Go | Gives shipping cost estimates based on the shoppin[...] |
 
-| \[emailservice](https://github.com/laxmikantagiri/Production-Grade\_GitOps-Driven\_Microservices-Demo/blob/main/src/emailservice) | Python | Sends users an order confirmation email (mock). |
+| [emailservice](https://github.com/laxmikantagiri/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/emailservice) | Python | Sends users an order confirmation email (mock). |
 
-| \[checkoutservice](https://github.com/laxmikantagiri/Production-Grade\_GitOps-Driven\_Microservices-Demo/blob/main/src/checkoutservice) | Go | Retrieves user cart, prepares order and orchestrates the payment, shipping and the email notification. |
+| [checkoutservice](https://github.com/laxmikantagiri/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/checkoutservice) | Go | Retrieves user cart, prepares order and orchestrat[...] |
 
-| \[recommendationservice](https://github.com/laxmikantagiri/Production-Grade\_GitOps-Driven\_Microservices-Demo/blob/main/src/recommendationservice) | Python | Recommends other products based on what's given in the cart. |
+| [recommendationservice](https://github.com/laxmikantagiri/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/recommendationservice) | Python | Recommends other products based on[...] |
 
-| \[adservice](https://github.com/laxmikantagiri/Production-Grade\_GitOps-Driven\_Microservices-Demo/blob/main/src/adservice) | Java | Provides text ads based on given context words. |
+| [adservice](https://github.com/laxmikantagiri/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/adservice) | Java | Provides text ads based on given context words. |
 
-| \[loadgenerator](https://github.com/laxmikantagiri/Production-Grade\_GitOps-Driven\_Microservices-Demo/blob/main/src/loadgenerator) | Python/Locust | Continuously sends requests imitating realistic user shopping flows to the frontend. |
+| [loadgenerator](https://github.com/laxmikantagiri/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/loadgenerator) | Python/Locust | Continuously sends requests imitating reali[...] |
 
 
 
@@ -224,79 +223,79 @@ Screenshots:
 
 
 
-!\[image.png](docs/images/Screenshot01.png)
+![Gitops_Project](images/Gitops_Project.png)
 
 
 
-\---
+---
 
 
 
-\*\*Most services are stateless\*\*, and \*\*only the cart uses persistence (Redis)\*\*. Let’s break it down cleanly.
+**Most services are stateless**, and **only the cart uses persistence (Redis)**. Let's break it down cleanly.
 
 
 
-\# How data works in `microservices-demo`
+# How data works in `microservices-demo`
 
 
 
-This project is \*\*designed\*\* to:
+This project is **designed** to:
 
 
 
-\- Demonstrate \*\*microservice communication\*\*
+- Demonstrate **microservice communication**
 
-\- Be \*\*easy to deploy anywhere\*\*
+- Be **easy to deploy anywhere**
 
-\- Avoid complex database ops
-
-
-
-So it uses \*\*minimal persistence\*\* on purpose.
+- Avoid complex database ops
 
 
 
-\---
+So it uses **minimal persistence** on purpose.
 
 
 
-\## Service-by-Service Data Breakdown
+---
 
 
 
-\### ✅ \*\*cartservice\*\* → ✔️ HAS persistence
+## Service-by-Service Data Breakdown
 
 
 
-\*\*Storage used:\*\*
+### ✅ **cartservice** → ✔️ HAS persistence
 
 
 
-\- \*\*Redis\*\*
+**Storage used:**
 
 
 
-\*\*What’s stored:\*\*
+- **Redis**
 
 
 
-\- User cart items
-
-\- Quantity, product IDs
+**What's stored:**
 
 
 
-\*\*Why Redis?\*\*
+- User cart items
+
+- Quantity, product IDs
 
 
 
-\- Fast
+**Why Redis?**
 
-\- Simple
 
-\- Easy to reset
 
-\- No schema complexity
+- Fast
+
+- Simple
+
+- Easy to reset
+
+- No schema complexity
 
 
 
@@ -304,205 +303,205 @@ So it uses \*\*minimal persistence\*\* on purpose.
 
 
 
-\- Redis runs as a pod (or StatefulSet)
+- Redis runs as a pod (or StatefulSet)
 
-\- Cart data is lost if Redis is deleted (by default)
+- Cart data is lost if Redis is deleted (by default)
 
 
 
-\---
+---
 
 
 
-\### ❌ \*\*orders / checkout\*\* → NO real database
+### ❌ **orders / checkout** → NO real database
 
 
 
-There is \*\*NO dedicated “orders database”\*\*.
+There is **NO dedicated "orders database"**.
 
 
 
-\*\*checkoutservice:\*\*
+**checkoutservice:**
 
 
 
-\- Aggregates data from:
+- Aggregates data from:
 
-&#x20;   - cartservice
+    - cartservice
 
-&#x20;   - paymentservice
+    - paymentservice
 
-&#x20;   - shippingservice
+    - shippingservice
 
-&#x20;   - emailservice
+    - emailservice
 
-\- Simulates order placement
+- Simulates order placement
 
-\- Does \*\*not persist orders\*\*
+- Does **not persist orders**
 
 
 
-👉 This is \*\*by design\*\*, to keep the demo lightweight.
+👉 This is **by design**, to keep the demo lightweight.
 
 
 
-\---
+---
 
 
 
-\### ❌ \*\*productcatalogservice\*\*
+### ❌ **productcatalogservice**
 
 
 
-\*\*Storage:\*\*
+**Storage:**
 
 
 
-\- Static JSON file
+- Static JSON file
 
-\- Loaded into memory at startup
+- Loaded into memory at startup
 
 
 
-\*\*No DB\*\*
+**No DB**
 
 
 
-\- Products reset on restart
+- Products reset on restart
 
 
 
-\---
+---
 
 
 
-\### ❌ \*\*recommendationservice\*\*
+### ❌ **recommendationservice**
 
 
 
-\*\*Storage:\*\*
+**Storage:**
 
 
 
-\- Stateless
+- Stateless
 
-\- Generates recommendations dynamically
+- Generates recommendations dynamically
 
 
 
-\---
+---
 
 
 
-\### ❌ \*\*paymentservice\*\*
+### ❌ **paymentservice**
 
 
 
-\*\*Storage:\*\*
+**Storage:**
 
 
 
-\- None
+- None
 
-\- Fake payment processor
+- Fake payment processor
 
 
 
-\---
+---
 
 
 
-\### ❌ \*\*shippingservice\*\*
+### ❌ **shippingservice**
 
 
 
-\*\*Storage:\*\*
+**Storage:**
 
 
 
-\- None
+- None
 
-\- Simulated shipping cost logic
+- Simulated shipping cost logic
 
 
 
-\---
+---
 
 
 
-\### ❌ \*\*emailservice\*\*
+### ❌ **emailservice**
 
 
 
-\*\*Storage:\*\*
+**Storage:**
 
 
 
-\- None
+- None
 
-\- Just logs “email sent”
+- Just logs "email sent"
 
 
 
-\---
+---
 
 
 
-\### ❌ \*\*adservice\*\*
+### ❌ **adservice**
 
 
 
-\*\*Storage:\*\*
+**Storage:**
 
 
 
-\- In-memory ad data
+- In-memory ad data
 
-\- No persistence
+- No persistence
 
 
 
-\---
+---
 
 
 
-\### ❌ \*\*frontend\*\*
+### ❌ **frontend**
 
 
 
-\*\*Storage:\*\*
+**Storage:**
 
 
 
-\- Stateless
+- Stateless
 
-\- Just UI + API calls
+- Just UI + API calls
 
 
 
-\---
+---
 
 
 
-\### ❌ \*\*currencyservice\*\*
+### ❌ **currencyservice**
 
 
 
-\*\*Storage:\*\*
+**Storage:**
 
 
 
-\- Static exchange rates
+- Static exchange rates
 
-\- In-memory only
+- In-memory only
 
 
 
-\---
+---
 
 
 
-\## SUMMARY TABLE
+## SUMMARY TABLE
 
 
 
@@ -534,25 +533,22 @@ There is \*\*NO dedicated “orders database”\*\*.
 
 
 
-\---
+---
 
 
 
-> “The demo intentionally keeps most services stateless to simplify deployment and focus on platform concerns like CI/CD, observability, scaling, and networking.”
+> "The demo intentionally keeps most services stateless to simplify deployment and focus on platform concerns like CI/CD, observability, scaling, and networking."
 
 > 
 
 
 
-\---
+---
 
 
 
-\# Project Architecture
+# Project Architecture
 
 
 
-!\[Gitops Project.gif](docs/images/Gitops\_Project.gif)
-
-
-
+![Gitops_Project](images/Gitops_Project.gif)
