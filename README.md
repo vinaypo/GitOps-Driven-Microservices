@@ -534,5 +534,6 @@ Select the repository and give the right Role.
 ![image.png](images/pck1.png)
 ![image.png](images/pck3.png)
 
+</details>
 ---
 
