@@ -221,10 +221,8 @@ They are built using **Microservices Architecture**.
 
 Screenshots:
 
+![image.png](images/webpage.png)
 
-
-![Gitops_Project](images/Gitops_Project.png)
-![Gitops_Project](images/Gitops_Project.gif)
 
 
 ---
