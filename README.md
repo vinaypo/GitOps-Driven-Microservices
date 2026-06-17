@@ -188,7 +188,7 @@ They are built using \*\*Microservices Architecture\*\*.
 
 
 
-!\[image.png](docs/images/Architecture01.png)
+!\[image.png](/images/Architecture01.png)
 
 
 
