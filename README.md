@@ -224,7 +224,7 @@ Screenshots:
 
 
 ![Gitops_Project](images/Gitops_Project.png)
-
+![Gitops_Project](images/Gitops_Project.gif)
 
 
 ---
