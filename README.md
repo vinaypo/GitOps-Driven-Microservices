@@ -29,152 +29,80 @@ But from a **technical perspective**, modern boutique apps are **not built as a 
 They are built using **Microservices Architecture**.
 
 
+[!TIP]
+# What is Microservices?
 
-> [!TIP]
+**Microservices** is an architectural style where an application is broken into **small, independent services**, and each service:
 
-># What is Microservices?
+- Handles a **specific business function**
+- Runs independently
+- Communicates via APIs
 
->
+👉 Instead of one big application (monolith), you have **multiple small services working together**.
 
->**Microservices** is an architectural style where an application is broken into **small, independent services**, and each service:
+---
 
->
+# Online Boutique = Microservices in Action
 
->- Handles a **specific business function**
+This online boutique app is made up of multiple services like:
 
->- Runs independently
+### 🧾 Product Catalog Service
 
->- Communicates via APIs
+- Manages product list, categories, pricing
 
->
+### 🛒 Cart Service
 
->👉 Instead of one big application (monolith), you have **multiple small services working together**.
+- Handles user cart (add/remove items)
 
->
+### 💳 Payment Service
 
->---
+- Processes payments (UPI, cards)
 
->
+### 📦 Order Service
 
-># Online Boutique = Microservices in Action
+- Manages order lifecycle
 
->
+### 👤 Frontend Service
 
->This online boutique app is made up of multiple services like:
+- Authentication & profiles
 
->
+### 🚚 Shipping Service
 
->### 🧾 Product Catalog Service
+- Delivery tracking & logistics
 
->
+### Etc..
 
->- Manages product list, categories, pricing
+---
 
->
+# How These Services Communicate
 
->### 🛒 Cart Service
+- REST APIs (HTTP)
+- gRPC (faster internal communication)
+- Message queues (Kafka / RabbitMQ)
 
->
+👉 Example:
 
->- Handles user cart (add/remove items)
+- Cart service → calls Product service
+- Order service → calls Payment service
 
->
+---
 
->### 💳 Payment Service
+# Monolith vs Microservices
 
->
+### Monolithic App ❌
 
->- Processes payments (UPI, cards)
+- Everything in one codebase
+- Hard to scale
+- Single failure affects whole system
 
->
+### Microservices App ✅
 
->### 📦 Order Service
+- Independent services
+- Easy to scale
+- Fault isolation
 
->
+👉 That’s why modern apps (like boutique apps) >use microservices.
 
->- Manages order lifecycle
-
->
-
->### 👤 Frontend Service
-
->
-
->- Authentication & profiles
-
->
-
->### 🚚 Shipping Service
-
->
-
->- Delivery tracking & logistics
-
->
-
->### Etc..
-
->
-
->---
-
->
-
-># How These Services Communicate
-
->
-
->- REST APIs (HTTP)
-
->- gRPC (faster internal communication)
-
->- Message queues (Kafka / RabbitMQ)
-
->
-
->👉 Example:
-
->
-
->- Cart service → calls Product service
-
->- Order service → calls Payment service
-
->
-
->---
-
->
-
-># Monolith vs Microservices
-
->
-
->### Monolithic App ❌
-
->
-
->- Everything in one codebase
-
->- Hard to scale
-
->- Single failure affects whole system
-
->
-
->### Microservices App ✅
-
->
-
->- Independent services
-
->- Easy to scale
-
->- Fault isolation
-
->
-
->👉 That's why modern apps (like boutique apps) use microservices.
 
 
 
