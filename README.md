@@ -550,3 +550,4 @@ There is **NO dedicated "orders database"**.
 
 
 ![Gitops_Project](images/Gitops_Project.gif)
+![Gitops_Project](images/Gitops_Project.png)
