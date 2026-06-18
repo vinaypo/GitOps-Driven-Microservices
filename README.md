@@ -480,6 +480,7 @@ There is **NO dedicated "orders database"**.
 
 
 ---
+---
 
 # Building and Pushing the docker images to GHCR (GitHub Container Registry)
 
@@ -536,5 +537,87 @@ Select the repository and give the right Role.
 ![image.png](images/pck3.png)
 
 </details>
+
 ---
+---
+
+# How to create the helm package and store it in the GHCR ?
+
+<details>
+
+<summary>Click to get the steps</summary>
+
+### Step-1: Create the token
+Create a PAT classic token with the below permissions.
+
+Give permissions:
+
+```
+Packages → Read&Write
+```
+
+If private repo add the below as well:
+
+```
+Contents →Read
+```
+
+### Step-2: Login via Helm
+
+```bash
+echo <TOKEN> | helm registry login ghcr.io -u USERNAME --password-stdin
+```
+
+If Successful:
+
+```
+Login Succeeded
+```
+
+## What Your Chart Path Will Look Like
+
+OCI format:
+
+```
+oci://ghcr.io/<OWNER>/charts/onlineboutique
+```
+
+Example:
+
+```
+oci://ghcr.io/vinaypo/charts/onlineboutique
+```
+
+Do:
+
+```
+helm package .
+```
+
+You will see the package will get created with ```.tgz``` format
+
+```
+Vinay@LAPTOP-422D1LR6 MINGW64 /d/Devops_Projects/project/Microservices-Project/GitOps-Driven-Microservices/helm-chart (main)
+$ ls
+Chart.yaml  README.md  onlineboutique-0.10.4.tgz  templates/  values.yaml
+```
+
+Push to the repository:
+
+```
+helm push onlineboutique-0.10.4.tgz oci://ghcr.io/vinaypo
+```
+
+Now you can directly install the package using the below command
+(Make sure its public)
+
+```
+helm install boutique oci://ghcr.io/vinaypo/onlineboutique --version 0.10.4
+```
+
+</details>
+
+---
+---
+
 
