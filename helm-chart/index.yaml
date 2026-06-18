@@ -3,12 +3,12 @@ entries:
   onlineboutique:
   - apiVersion: v2
     appVersion: v0.10.4
-    created: "2026-06-18T19:00:35.5073175+01:00"
+    created: "2026-06-18T19:08:19.8931566+01:00"
     description: A Helm chart for Kubernetes for Online Boutique
     digest: f06e8c5f20969f6fc7e92873a54fd849d0b572d8012c56443a264600fbc395d3
     name: onlineboutique
     type: application
     urls:
-    - onlineboutique-0.10.4.tgz
+    - https://vinaypo.github.io/GitOps-Driven-Microservices/onlineboutique-0.10.4.tgz
     version: 0.10.4
-generated: "2026-06-18T19:00:35.5044649+01:00"
+generated: "2026-06-18T19:08:19.8916337+01:00"
