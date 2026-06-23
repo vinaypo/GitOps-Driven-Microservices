@@ -15,7 +15,7 @@
 # limitations under the License.
 
 # [START gke_adservice_genproto]
-# protos are needed in adservice folder for compiling during Docker build.
+# protos are needed in adservice folder for compiling during Docker build for the application.
 
 mkdir -p proto && \
 cp ../../protos/demo.proto src/main/proto
