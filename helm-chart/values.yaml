@@ -18,7 +18,7 @@
 
 images:
   adservice:
-    repository: ghcr.io/vinaypo/microservices-demo/adservice
+    repository: ghcr.io/vinaypo/microservices/adservice
     # Overrides the image tag whose default is the chart appVersion.
     tag: v0.10.4
   cartservice:
