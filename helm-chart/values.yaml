@@ -22,34 +22,34 @@ images:
     # Overrides the image tag whose default is the chart appVersion.
     tag: v0.10.4
   cartservice:
-    repository: ghcr.io/laxmikantagiri/microservices-demo/cartservice
+    repository: ghcr.io/laxmikantagiri/microservices/cartservice
     tag: v0.10.4
   checkoutservice:
-    repository: ghcr.io/laxmikantagiri/microservices-demo/checkoutservice
+    repository: ghcr.io/laxmikantagiri/microservices/checkoutservice
     tag: v0.10.4
   currencyservice:
-    repository: ghcr.io/laxmikantagiri/microservices-demo/currencyservice
+    repository: ghcr.io/laxmikantagiri/microservices/currencyservice
     tag: v0.10.4
   emailservice:
-    repository: ghcr.io/laxmikantagiri/microservices-demo/emailservice
+    repository: ghcr.io/laxmikantagiri/microservices/emailservice
     tag: v0.10.4
   frontend:
-    repository: ghcr.io/laxmikantagiri/microservices-demo/frontend
+    repository: ghcr.io/laxmikantagiri/microservices/frontend
     tag: v0.10.4
   loadgenerator:
-    repository: ghcr.io/laxmikantagiri/microservices-demo/loadgenerator
+    repository: ghcr.io/laxmikantagiri/microservices/loadgenerator
     tag: v0.10.4
   paymentservice:
-    repository: ghcr.io/laxmikantagiri/microservices-demo/paymentservice
+    repository: ghcr.io/laxmikantagiri/microservices/paymentservice
     tag: v0.10.4
   productcatalogservice:
-    repository: ghcr.io/laxmikantagiri/microservices-demo/productcatalogservice
+    repository: ghcr.io/laxmikantagiri/microservices/productcatalogservice
     tag: v0.10.4
   recommendationservice:
-    repository: ghcr.io/laxmikantagiri/microservices-demo/recommendationservice
+    repository: ghcr.io/laxmikantagiri/microservices/recommendationservice
     tag: v0.10.4
   shippingservice:
-    repository: ghcr.io/laxmikantagiri/microservices-demo/shippingservice
+    repository: ghcr.io/laxmikantagiri/microservices/shippingservice
     tag: v0.10.4
 
 serviceAccounts:
@@ -156,7 +156,7 @@ frontend:
   virtualService:
     create: false
     hosts:
-    - "*"
+      - "*"
     gateway:
       name: asm-ingressgateway
       namespace: asm-ingress
