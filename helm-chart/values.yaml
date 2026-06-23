@@ -18,38 +18,38 @@
 
 images:
   adservice:
-    repository: ghcr.io/laxmikantagiri/microservices-demo/adservice
+    repository: ghcr.io/vinaypo/microservices-demo/adservice
     # Overrides the image tag whose default is the chart appVersion.
     tag: v0.10.4
   cartservice:
-    repository: ghcr.io/laxmikantagiri/microservices/cartservice
+    repository: ghcr.io/vinaypo/microservices/cartservice
     tag: v0.10.4
   checkoutservice:
-    repository: ghcr.io/laxmikantagiri/microservices/checkoutservice
+    repository: ghcr.io/vinaypo/microservices/checkoutservice
     tag: v0.10.4
   currencyservice:
-    repository: ghcr.io/laxmikantagiri/microservices/currencyservice
+    repository: ghcr.io/vinaypo/microservices/currencyservice
     tag: v0.10.4
   emailservice:
-    repository: ghcr.io/laxmikantagiri/microservices/emailservice
+    repository: ghcr.io/vinaypo/microservices/emailservice
     tag: v0.10.4
   frontend:
-    repository: ghcr.io/laxmikantagiri/microservices/frontend
+    repository: ghcr.io/vinaypo/microservices/frontend
     tag: v0.10.4
   loadgenerator:
-    repository: ghcr.io/laxmikantagiri/microservices/loadgenerator
+    repository: ghcr.io/vinaypo/microservices/loadgenerator
     tag: v0.10.4
   paymentservice:
-    repository: ghcr.io/laxmikantagiri/microservices/paymentservice
+    repository: ghcr.io/vinaypo/microservices/paymentservice
     tag: v0.10.4
   productcatalogservice:
-    repository: ghcr.io/laxmikantagiri/microservices/productcatalogservice
+    repository: ghcr.io/vinaypo/microservices/productcatalogservice
     tag: v0.10.4
   recommendationservice:
-    repository: ghcr.io/laxmikantagiri/microservices/recommendationservice
+    repository: ghcr.io/vinaypo/microservices/recommendationservice
     tag: v0.10.4
   shippingservice:
-    repository: ghcr.io/laxmikantagiri/microservices/shippingservice
+    repository: ghcr.io/vinaypo/microservices/shippingservice
     tag: v0.10.4
 
 serviceAccounts:
