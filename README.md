@@ -615,9 +615,343 @@ Now you can directly install the package using the below command
 helm install boutique oci://ghcr.io/vinaypo/onlineboutique --version 0.10.4
 ```
 
+Initially, the Helm chart was structured as a single monolithic repository, without separation for individual microservices. To improve modularity and enable an efficient CI/CD workflow, I pulled the official Docker images for each service and stored them in GitHub Container Registry. I then updated the Helm templates to reference these images, packaged the chart, and pushed it to GitHub Container Registry. This setup ensures a streamlined and scalable CI/CD process tailored to our microservices architecture.
+
+Once you have the images in the github packages, connect them to the repository.
+
 </details>
 
 ---
 ---
 
+## Now Lets set up the CI part in Github Action.
 
+As the permission is set now. We will add the workflow files now.
+
+Create a directory at the root level of the repo.
+
+```
+mkdir -p .github/workflows
+```
+Inside the workflows create two config file.
+
+#### Note: These files are already available in the github repo. You just need to modify them and use them as per your need.
+
+```microservice-ci.yaml:```
+
+```
+name: Microservice CI
+
+on:
+  workflow_call:
+    inputs:
+      service:
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/microservices/${{ inputs.service }}:sha-${{ github.sha }}
+
+    steps:
+      # -------------------
+      # Checkout source
+      # -------------------
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      # -------------------
+      # Docker Buildx (cache support)
+      # -------------------
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      # -------------------
+      # Login to GHCR
+      # -------------------
+      - name: Login to GHCR
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # -------------------
+      # Build Docker image (cached)
+      # -------------------
+      - name: Build Image
+        run: |
+          docker build \
+            --cache-from=type=gha \
+            --cache-to=type=gha,mode=max \
+            -t $IMAGE_NAME \
+            ./src/${{ inputs.service }}
+
+      # -------------------
+      # Security Scan (before push)
+      # -------------------
+      - name: Run Trivy Scan
+        uses: aquasecurity/trivy-action@v0.20.0
+        with:
+          scan-type: image
+          image-ref: ${{ env.IMAGE_NAME }}
+          severity: HIGH,CRITICAL
+          exit-code: 0
+          vuln-type: os,library
+
+      # -------------------
+      # Push image (only if scan passes)
+      # -------------------
+      - name: Push Image
+        run: |
+          docker push $IMAGE_NAME
+```
+[!TIP]
+
+### In the trivy scan part:
+The exit-code is set to 0 intentionally just to pass the build. But its recommended to set to it 1. so that -
+
+-  If ANY HIGH or CRITICAL vulnerability is found → fail the pipeline immediately.
+-  This is actually best practice for financial / security-heavy companies.
+
+#### Note: You will get the scan report whether its set to 0 or 1.
+
+```ci-trigger.yaml:```
+
+```
+name: Microservices Trigger CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+
+permissions:
+  contents: read
+  packages: write
+  attestations: write
+  id-token: write
+
+jobs:
+  # -------------------------------
+  # Job 1: Detect changed services
+  # -------------------------------
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      services: ${{ steps.changed.outputs.services }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Detect changed services
+        id: changed
+        run: |
+          SERVICES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} \
+            | grep '^src/' \
+            | cut -d'/' -f2 \
+            | sort -u \
+            | jq -R -s -c 'split("\n")[:-1]')
+
+          echo "Detected services: $SERVICES"
+          echo "services=$SERVICES" >> $GITHUB_OUTPUT
+
+  # --------------------------------------------------
+  # Job 2: Call reusable workflow (matrix per service)
+  # --------------------------------------------------
+  build-and-push:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.services != '[]'
+
+    strategy:
+      fail-fast: false
+      matrix:
+        service: ${{ fromJson(needs.detect-changes.outputs.services) }}
+
+    # IMPORTANT:
+    # Reusable workflows are called at JOB level
+    uses: ./.github/workflows/microservice-ci.yaml
+
+    with:
+      service: ${{ matrix.service }}
+    secrets: inherit
+```
+
+## Now Lets Move to the CD part.
+
+To make the CD part work in GitOps way. First we need to have setup the argocd.
+
+Our application code , helm chart and Helm values are already in the repo.
+
+Additionally to expose our application via Gateway API we need httproute and targetgroupconfiguration files which you can keep in the separate directory in the root.
+
+In our case i kept in ```microservices-extra-kube-manifests/``` folder in the root directory.
+
+-  Create target group configurations for the app frontend service.
+
+    ```microservices-extra-kube-manifests/target-grp.yaml```
+
+    ```
+        #target group configuration
+        apiVersion: gateway.k8s.aws/v1beta1
+        kind: TargetGroupConfiguration
+        metadata:
+            name: app-tg-config
+            namespace: boutique-app
+        spec:
+            targetReference:
+                name: frontend
+            defaultConfiguration:
+                targetType: ip 
+    ```
+
+-  Create the HTTProute for the app so that it will get attached with the gateway and add as a listener in the load balancer.
+
+    ```microservices-extra-kube-manifests/HTTProute.yaml```
+
+    ```
+        apiVersion: gateway.networking.k8s.io/v1beta1
+        kind: HTTPRoute
+        metadata:
+        name: http-app-route
+        namespace: boutique-app
+        spec:
+        hostnames:
+            - "boutique.thedevopsnow.online"
+        parentRefs:
+        - group: gateway.networking.k8s.io
+            namespace: default
+            kind: Gateway
+            name: app-alb-gateway
+            sectionName: http
+        - group: gateway.networking.k8s.io
+            namespace: default
+            kind: Gateway
+            name: app-alb-gateway
+            sectionName: https
+        rules:
+        - backendRefs:
+            - name: frontend
+            port: 80
+    ```
+- ArgoCD can deploy multiple sources from one repo inside a single Application using ```Kustomize.```
+
+- Kustomize render it as a single manifest file.
+
+So first Lets create kustomization config and we will attach that as source.
+
+## Why This Is The Best Pattern
+
+Because you get:
+
+### ✔ Helm remains reusable
+You can publish it later.
+
+### ✔ Infra-specific resources stay outside
+HTTPRoute, TargetGroupBinding are environment-specific, not app-specific.
+
+### ✔ Cleaner GitOps
+
+Separation of concerns.
+
+Think like this:
+
+👉 Helm = Application
+
+👉 Extra manifests = Platform / Networking layer
+
+[!Important]
+
+You do NOT need to install Kustomize in the cluster.
+
+👉 Argo CD has built-in support for Kustomize.
+
+It renders Kustomize manifests internally inside the Argo CD repo-server before applying them to the cluster.
+
+Create a kustomize config file
+
+- Do NOT apply this file manually
+- You commit this file to Git.
+- Then ArgoCD does everything.
+
+```kustomization.yaml``` (Root Dir)
+
+    ```
+    apiVersion: kustomize.config.k8s.io/v1beta1
+    kind: Kustomization
+
+    resources:
+    - microservices-extra-kube-manifests/HTTProute.yaml
+    - microservices-extra-kube-manifests/target-grp.yaml
+
+    helmCharts:
+    - name: onlineboutique
+        repo: oci://ghcr.io/vinaypo
+        version: 0.10.4
+        releaseName: boutique-app
+        namespace: boutique-app
+        valuesFile: helm-chart/values.yaml
+    ```
+
+[!TIP]
+
+## What Actually Happens Behind the Scenes
+
+When you create an Argo CD Application that points to a Kustomize directory:
+
+1. Argo CD repo-server clones your Git repo.
+2. It detects kustomization.yaml.
+3. Runs something equivalent to kustomize build .
+4. Sends the rendered manifests to the Kubernetes API.
+👉 All of this happens inside the Argo CD pod, not your cluster nodes.
+
+## Create our Argocd App
+
+Create the argo app manifest and place it inside the ```argocd/argocd-apps``` directory for organise better.
+
+```boutique-app.yaml```
+
+    ```
+    apiVersion: argoproj.io/v1alpha1
+    kind: Application
+    metadata:
+    name: boutique-app
+    namespace: argocd
+    spec:
+    project: default
+
+    source:
+        repoURL: https://github.com/vinaypo/GitOps-Driven-Microservices.git
+        targetRevision: HEAD
+        path: .
+
+    destination:
+        server: https://kubernetes.default.svc
+        namespace: boutique-app
+
+    syncPolicy:
+        automated:
+        prune: true
+        selfHeal: true
+        syncOptions:
+        - CreateNamespace=true
+    ```
+
+Now apply the file:
+
+``` 
+kubectl apply -f boutique-app.yaml
+```
+
+Check the ArgoCD UI you should see the app visible there. And all Synced.
+
+![Argocd_app](images/Gitops_app.png)
+
+---
+---
