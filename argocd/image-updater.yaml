@@ -14,34 +14,34 @@ spec:
 
       images:
         - alias: adservice
-          imageName: ghcr.io/vinaypo/microservices-demo/adservice
+          imageName: ghcr.io/vinaypo/microservices/adservice
 
         - alias: cartservice
-          imageName: ghcr.io/vinaypo/microservices-demo/cartservice
+          imageName: ghcr.io/vinaypo/microservices/cartservice
 
         - alias: checkoutservice
-          imageName: ghcr.io/vinaypo/microservices-demo/checkoutservice
+          imageName: ghcr.io/vinaypo/microservices/checkoutservice
 
         - alias: currencyservice
-          imageName: ghcr.io/vinaypo/microservices-demo/currencyservice
+          imageName: ghcr.io/vinaypo/microservices/currencyservice
 
         - alias: emailservice
-          imageName: ghcr.io/vinaypo/microservices-demo/emailservice
+          imageName: ghcr.io/vinaypo/microservices/emailservice
 
         - alias: frontend
-          imageName: ghcr.io/vinaypo/microservices-demo/frontend
+          imageName: ghcr.io/vinaypo/microservices/frontend
 
         - alias: paymentservice
-          imageName: ghcr.io/vinaypo/microservices-demo/paymentservice
+          imageName: ghcr.io/vinaypo/microservices/paymentservice
 
         - alias: productcatalogservice
-          imageName: ghcr.io/vinaypo/microservices-demo/productcatalogservice
+          imageName: ghcr.io/vinaypo/microservices/productcatalogservice
 
         - alias: recommendationservice
-          imageName: ghcr.io/vinaypo/microservices-demo/recommendationservice
+          imageName: ghcr.io/vinaypo/microservices/recommendationservice
 
         - alias: shippingservice
-          imageName: ghcr.io/vinaypo/microservices-demo/shippingservice
+          imageName: ghcr.io/vinaypo/microservices/shippingservice
 
         - alias: loadgenerator
-          imageName: ghcr.io/vinaypo/microservices-demo/loadgenerator
+          imageName: ghcr.io/vinaypo/microservices/loadgenerator
