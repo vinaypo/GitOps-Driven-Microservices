@@ -955,3 +955,135 @@ Check the ArgoCD UI you should see the app visible there. And all Synced.
 
 ---
 ---
+
+# Now Lets integrate the CI with CD
+
+In the current setup the CD (ArgoCD) never takes the updated image form the CI. We need an image updater here, which we have already setup during infrastructure setup.
+
+The image updater pods will be looking like this as shown below:
+Make sure its running:
+```
+kubectl get po -n argocd
+
+NAME                                                        READY   STATUS    RESTARTS   AGE
+argo-cd-argocd-application-controller-0                     1/1     Running   0          3h22m
+argo-cd-argocd-applicationset-controller-769bdb7567-cxhtp   1/1     Running   0          23h
+argo-cd-argocd-dex-server-86768bcd44-jtlf7                  1/1     Running   0          23h
+argo-cd-argocd-notifications-controller-8b76b5d6f-wsflw     1/1     Running   0          23h
+argo-cd-argocd-redis-5bfc9f9dc7-v76tt                       1/1     Running   0          23h
+argo-cd-argocd-repo-server-6d684f8f65-z6vgx                 1/1     Running   0          175m
+argo-cd-argocd-server-d5cb45b88-pcxfg                       1/1     Running   0          3h22m
+argocd-image-updater-controller-684b4bd5f9-5w6xf            1/1     Running   0          34s
+```
+
+## Argo CD Image Updater – GitHub & Secret Requirements
+Argo CD Image Updater can work in two different modes:
+
+- Live-state update (Argo CD API mode)
+- Git write-back mode (true GitOps)
+The secrets and permissions required depend on the mode you choose.
+
+## Current Setup: ImageUpdater CRD + newest-build (NO Git write-back)
+
+### What we are using ?
+- ImageUpdater CRD
+- updateStrategy: newest-build
+- No writeBack.method: git
+- Images updated via Argo CD API
+- Helm values updated in live state only
+
+The CI pipeline automatically builds and pushes images to the container registry. The ArgoCD Image Updater continuously monitors the registry and, upon detecting a new image tag, directly updates the live application resources in the cluster using the ArgoCD API. This eliminates the need to manually update Helm values or commit changes to Git, providing a simple and automated deployment flow suitable for personal projects.
+
+### Flow
+
+```
+CI pushesimage → GHCR
+       ↓
+ImageUpdater detects newestimage
+       ↓
+ImageUpdater patches Argo CD Application (K8s API)
+       ↓
+Argo CD deploys newimage
+```
+### As of now it's using the base older version of image
+```
+#currently using the the older version of the image "v0.10.4"
+kubectl describe po frontend-7dd5db5f5-xb7g8 -n boutique-app | grep "image"
+
+Normal  Pulled     51m   kubelet            spec.containers{server}: Container image "ghcr.io/vinaypo/microservices/frontend:v0.10.4" already present on machine
+```
+
+Add ```imageupdater``` CR
+
+```argocd/image-updater.yaml```
+
+```
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: boutique-image-updater
+  namespace: argocd
+spec:
+  namespace: argocd
+  applicationRefs:
+    - namePattern: "boutique-*"
+
+      commonUpdateSettings:
+        updateStrategy: "newest-build"
+        allowTags: "regexp:^sha-[a-f0-9]{7,40}$"
+
+      images:
+        - alias: adservice
+          imageName: ghcr.io/vinaypo/microservices/adservice
+
+        - alias: cartservice
+          imageName: ghcr.io/vinaypo/microservices/cartservice
+
+        - alias: checkoutservice
+          imageName: ghcr.io/vinaypo/microservices/checkoutservice
+
+        - alias: currencyservice
+          imageName: ghcr.io/vinaypo/microservices/currencyservice
+
+        - alias: emailservice
+          imageName: ghcr.io/vinaypo/microservices/emailservice
+
+        - alias: frontend
+          imageName: ghcr.io/vinaypo/microservices/frontend
+
+        - alias: paymentservice
+          imageName: ghcr.io/vinaypo/microservices/paymentservice
+
+        - alias: productcatalogservice
+          imageName: ghcr.io/vinaypo/microservices/productcatalogservice
+
+        - alias: recommendationservice
+          imageName: ghcr.io/vinaypo/microservices/recommendationservice
+
+        - alias: shippingservice
+          imageName: ghcr.io/vinaypo/microservices/shippingservice
+
+        - alias: loadgenerator
+          imageName: ghcr.io/vinaypo/microservices/loadgenerator
+```
+
+Apply it:
+
+```
+kubectl apply -f argocd/image-updater.yaml
+```
+
+Verify:
+
+```
+kubectl get imageupdater -n argocd
+
+NAME                     AGE
+boutique-image-updater   13s
+```
+Head to ArgoCD UI , and in separte tab run the CI pipeline or trigger it via chnaging the code you should see updated images automaticaaly picked. in ArgoCD
+
+![imageupdater1](images/Imageupdater1.png)
+![imageupdater2](images/Imageupdater2.png)
+
+
