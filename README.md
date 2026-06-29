@@ -915,9 +915,11 @@ When you create an Argo CD Application that points to a Kustomize directory:
 
 Before create the argocd application, we need to create the imagepullsecret for our microservices to pull the images from private registry.
 
-we have not mentioned the imagepullsecrets in our helm charts because the credentials will be open to public in git. So we create the secret manually in the cluster.
+we have not mentioned the imagepullsecrets in our helm chart template folder but we used the secret name in values.yaml file and refered in the manifest files. because the credentials will be open to public in git. So we create the secret manually in the cluster.
 
-```kubectl create secret docker-registry ghcr-secret --docker-server=ghcr.io <registry> --docker-username=<username> --docker-password=<password> -n boutique-app ```
+```
+kubectl create secret docker-registry ghcr-secret --docker-server=ghcr.io <registry> --docker-username=<username> --docker-password=<password> -n boutique-app 
+```
 
 Note: for password we have used the PAT token with proper permissions.
 
