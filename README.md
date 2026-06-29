@@ -913,7 +913,16 @@ When you create an Argo CD Application that points to a Kustomize directory:
 
 ## Create our Argocd App
 
-Create the argo app manifest and place it inside the ```argocd/argocd-apps``` directory for organise better.
+Before create the argocd application, we need to create the imagepullsecret for our microservices to pull the images from private registry.
+
+we have not mentioned the imagepullsecrets in our helm charts because the credentials will be open to public in git. So we create the secret manually in the cluster.
+
+```kubectl create secret docker-registry ghcr-secret --docker-server=ghcr.io <registry> --docker-username=<username> --docker-password=<password> -n boutique-app ```
+
+Note: for password we have used the PAT token with proper permissions.
+
+
+Then Create the argo app manifest and place it inside the ```argocd/argocd-apps``` directory for organise better.
 
 ```boutique-app.yaml```
 
