@@ -10,7 +10,6 @@ spec:
       repository: https://github.com/vinaypo/GitOps-Driven-Microservices.git
       branch: main
       writeBackTarget: "helmvalues:helm-chart/values.yaml"
-  namespace: argocd
   applicationRefs:
     - namePattern: "boutique-*"
 
