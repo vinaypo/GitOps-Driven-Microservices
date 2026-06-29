@@ -43,6 +43,8 @@ spec:
       labels:
         app: {{ .Values.shippingService.name }}
     spec:
+      imagePullSecrets:
+      {{- toYaml .Values.imagePullSecrets | nindent 6 }}
       {{- if .Values.serviceAccounts.create }}
       serviceAccountName: {{ .Values.shippingService.name }}
       {{- else }}
@@ -70,8 +72,6 @@ spec:
           readOnlyRootFilesystem: true
         image: {{ .Values.images.shippingservice.repository }}:{{ .Values.images.shippingservice.tag | default .Chart.AppVersion }}
         imagePullPolicy: {{ .Values.images.shippingservice.imagePullPolicy }}
-        imagePullSecrets:
-        {{- toYaml .Values.imagePullSecrets | nindent 8 }}
         ports:
         - containerPort: 50051
         env:
