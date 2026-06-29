@@ -4,12 +4,6 @@ metadata:
   name: boutique-image-updater
   namespace: argocd
 spec:
-  writeBackConfig:
-    method: "git:secret:argocd/github-git-creds"
-    gitConfig:
-      repository: https://github.com/vinaypo/GitOps-Driven-Microservices.git
-      branch: main
-      writeBackTarget: "helmvalues:helm-chart/values.yaml"
   applicationRefs:
     - namePattern: "boutique-*"
 
