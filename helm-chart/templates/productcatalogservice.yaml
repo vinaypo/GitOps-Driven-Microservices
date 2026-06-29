@@ -70,6 +70,9 @@ spec:
           privileged: false
           readOnlyRootFilesystem: true
         image: {{ .Values.images.productcatalogservice.repository }}:{{ .Values.images.productcatalogservice.tag | default .Chart.AppVersion }}
+        imagePullPolicy: {{ .Values.images.productcatalogservice.imagePullPolicy }}
+        imagePullSecrets:
+        {{- toYaml .Values.imagePullSecrets | nindent 8 }}
         ports:
         - containerPort: 3550
         env:

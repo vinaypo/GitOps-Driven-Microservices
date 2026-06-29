@@ -70,6 +70,9 @@ spec:
           privileged: false
           readOnlyRootFilesystem: true
         image: {{ .Values.images.recommendationservice.repository }}:{{ .Values.images.recommendationservice.tag | default .Chart.AppVersion }}
+        imagePullPolicy: {{ .Values.images.recommendationservice.imagePullPolicy }}
+        imagePullSecrets:
+        {{- toYaml .Values.imagePullSecrets | nindent 8 }}
         ports:
         - containerPort: 8080
         readinessProbe:

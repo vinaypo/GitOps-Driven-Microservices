@@ -74,6 +74,9 @@ spec:
           privileged: false
           readOnlyRootFilesystem: true
         image: {{ .Values.images.cartservice.repository }}:{{ .Values.images.cartservice.tag | default .Chart.AppVersion }}
+        imagePullPolicy: {{ .Values.images.cartservice.imagePullPolicy }}
+        imagePullSecrets:
+        {{- toYaml .Values.imagePullSecrets | nindent 8 }}
         ports:
         - containerPort: 7070
         env:

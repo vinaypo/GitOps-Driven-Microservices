@@ -21,36 +21,47 @@ images:
     repository: ghcr.io/vinaypo/microservices/adservice
     # Overrides the image tag whose default is the chart appVersion.
     tag: v0.10.4
+    imagePullPolicy: IfNotPresent
   cartservice:
     repository: ghcr.io/vinaypo/microservices/cartservice
     tag: v0.10.4
+    imagePullPolicy: IfNotPresent
   checkoutservice:
     repository: ghcr.io/vinaypo/microservices/checkoutservice
     tag: v0.10.4
+    imagePullPolicy: IfNotPresent
   currencyservice:
     repository: ghcr.io/vinaypo/microservices/currencyservice
     tag: v0.10.4
+    imagePullPolicy: IfNotPresent
   emailservice:
     repository: ghcr.io/vinaypo/microservices/emailservice
     tag: v0.10.4
+    imagePullPolicy: IfNotPresent
   frontend:
     repository: ghcr.io/vinaypo/microservices/frontend
     tag: v0.10.4
+    imagePullPolicy: IfNotPresent
   loadgenerator:
     repository: ghcr.io/vinaypo/microservices/loadgenerator
     tag: v0.10.4
+    imagePullPolicy: IfNotPresent
   paymentservice:
     repository: ghcr.io/vinaypo/microservices/paymentservice
     tag: v0.10.4
+    imagePullPolicy: IfNotPresent
   productcatalogservice:
     repository: ghcr.io/vinaypo/microservices/productcatalogservice
     tag: v0.10.4
+    imagePullPolicy: IfNotPresent
   recommendationservice:
     repository: ghcr.io/vinaypo/microservices/recommendationservice
     tag: v0.10.4
+    imagePullPolicy: IfNotPresent
   shippingservice:
     repository: ghcr.io/vinaypo/microservices/shippingservice
     tag: v0.10.4
+    imagePullPolicy: IfNotPresent
 
 serviceAccounts:
   # Specifies whether service accounts should be created.
@@ -249,3 +260,6 @@ cartDatabase:
 shoppingAssistantService:
   create: false
   name: shoppingassistantservice
+
+imagePullSecrets:
+  - name: ghcr-secret

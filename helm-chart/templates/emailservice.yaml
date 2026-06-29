@@ -70,6 +70,9 @@ spec:
           privileged: false
           readOnlyRootFilesystem: true
         image: {{ .Values.images.emailservice.repository }}:{{ .Values.images.emailservice.tag | default .Chart.AppVersion }}
+        imagePullPolicy: {{ .Values.images.emailservice.imagePullPolicy }}
+        imagePullSecrets:
+        {{- toYaml .Values.imagePullSecrets | nindent 8 }}
         ports:
         - containerPort: 8080
         env:

@@ -107,6 +107,9 @@ spec:
           privileged: false
           readOnlyRootFilesystem: true
         image: {{ .Values.images.loadgenerator.repository }}:{{ .Values.images.loadgenerator.tag | default .Chart.AppVersion }}
+        imagePullPolicy: {{ .Values.images.loadgenerator.imagePullPolicy }}
+        imagePullSecrets:
+        {{- toYaml .Values.imagePullSecrets | nindent 8 }}
         env:
         - name: FRONTEND_ADDR
           value: "{{ .Values.frontend.name }}:80"
